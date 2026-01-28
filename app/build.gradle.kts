@@ -75,6 +75,14 @@ dependencies {
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt)
 
+    //Navigation
+    implementation(libs.androidx.navigation.compose)
+
+    //Google Play Services
+    implementation(libs.google.play.services)
+    implementation(libs.google.api.client.android)
+    implementation(libs.google.calendar)
+
 }
 
 kapt {
