@@ -1,1 +1,200 @@
-/build
+
+# Firebase configuration (contains API keys)
+google-services.json
+GoogleService-Info.plist
+
+# API keys and secrets
+secrets.properties
+apikeys.properties
+keystore.properties
+
+# Keystore files (CRITICAL - These sign your app)
+*.jks
+*.keystore
+*.p12
+*.key
+
+# Local configuration
+local.properties
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Private keys
+private_key.pem
+service-account-key.json
+firebase-adminsdk-*.json
+
+# IDE-specific files
+*.iml
+.idea/
+gradle.properties
+
+# User-specific configurations
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/assetWizardSettings.xml
+.idea/dictionaries
+.idea/libraries
+.idea/caches
+.idea/modules.xml
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/misc.xml
+.idea/navEditor.xml
+
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Android Studio captures folder
+captures/
+
+# IntelliJ
+out/
+
+# External native build folder
+.externalNativeBuild/
+.cxx/
+
+# Gradle files
+.gradle/
+build/
+
+# Gradle cache
+gradle/wrapper/gradle-wrapper.properties
+
+# Android Studio 3.x .idea folder
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# Built application files
+*.apk
+*.ap_
+*.aab
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+
+# Release files
+release/
+app/release/
+
+# Signed APKs
+*-release.apk
+*-signed.apk
+
+# Mapping files (ProGuard/R8)
+mapping.txt
+seeds.txt
+usage.txt
+proguard/
+*.log
+
+# Kotlin metadata
+.kotlin/
+*.kotlin_module
+*.kotlin_metadata
+
+# Test results
+test-results/
+androidTest-results/
+
+# Code coverage
+coverage/
+*.exec
+jacoco.exec
+
+# Lint
+lint/
+lint-results.html
+lint-results.xml
+
+# Backup files
+*.bak
+*.tmp
+*.orig
+*~
+
+# Temporary files
+temp/
+tmp/
+
+*.rej
+*.patch
+*.diff
+
+# Generated documentation
+docs/generated/
+javadoc/
+kdoc/
+
+# External libraries (managed by Gradle)
+libs/
+
+# NDK
+obj/
+jni/
+
+# CMake
+cmake-build-*/
+
+# Cielo credentials (CRITICAL)
+cielo_credentials.json
+cielo_config.properties
+
+# Cielo test data
+cielo_test_data/
+
+# Firebase debug symbols
+firebase-debug.log
+firebase-debug.*.log
+
+# Firebase cache
+.firebase/
+
+# Crashlytics
+crashlytics-build.properties
+fabric.properties
+com_crashlytics_export_strings.xml
+
+# Payment test credentials
+payment_test_credentials.txt
+payment_config.json
+
+# Transaction logs (may contain sensitive data)
+transaction_logs/
+payment_logs/
+
+# Analytics data
+analytics/
+
+# User data
+user_data/
+customer_data/
+
+# Android profiler
+*.hprof
+
+# Memory dumps
+*.dump
+
+# CPU profiling
+*.trace
+
+# Custom configuration
+config/local/
+config/development/
+
+# Database exports
+*.db
+*.sqlite
+*.sql

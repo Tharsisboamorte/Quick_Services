@@ -1,4 +1,4 @@
-package com.tharsis.qucikservices.presentation.theme
+package com.tharsis.quickservices.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

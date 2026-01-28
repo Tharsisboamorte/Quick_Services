@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "740568661589",
+    "project_id": "quickservices-60c2e",
+    "storage_bucket": "quickservices-60c2e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740568661589:android:f902eb43da7691700f9edc",
+        "android_client_info": {
+          "package_name": "com.tharsis.quickservices"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740568661589-vivpkhp82s4icpsa5b4m5irf9ihih3pb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSPymF2oM3SDeUmQROt3HffDP7Q_v-Alo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740568661589-vivpkhp82s4icpsa5b4m5irf9ihih3pb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
