@@ -18,7 +18,7 @@ interface ServiceRepository {
 
     suspend fun updateBooking(booking: Booking): AppResult<Booking>
 
-    fun getUserBookings(): Flow<AppResult<List<Booking>>>
+    fun getUserBookings(email: String): Flow<AppResult<List<Booking>>>
 
     suspend fun processPayment(payment: Payment): AppResult<Payment>
 
