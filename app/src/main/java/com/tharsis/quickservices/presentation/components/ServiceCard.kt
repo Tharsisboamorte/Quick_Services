@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -55,14 +54,13 @@ fun ServiceCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Default.AttachMoney,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
+                    Text(
+                        text = "Valor: ",
+                        style = MaterialTheme.typography.titleMedium,
                     )
                     Text(
                         text = service.getFormattedPrice(),
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {

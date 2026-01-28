@@ -24,7 +24,6 @@ class FirebaseDataSource @Inject constructor(
     fun getAllServices(): Flow<AppResult<List<ServiceModel>>> = callbackFlow {
         val listenerRegistration = firestore.collection(Constants.COLLECTION_SERVICES)
             .whereEqualTo("is_available", true)
-            .orderBy("name", Query.Direction.ASCENDING)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     trySend(AppResult.Error(error.message.toString()))
@@ -35,11 +34,14 @@ class FirebaseDataSource @Inject constructor(
                     val services = snapshot.documents.mapNotNull { document ->
                         try {
                             document.toObject(ServiceModel::class.java)
-                        } catch (e: Exception) {
+                        } catch (_: Exception) {
                             null
                         }
                     }
+                        .sortedBy { it.name }
+
                     trySend(AppResult.Success(services))
+
                 }
             }
 
@@ -125,7 +127,7 @@ class FirebaseDataSource @Inject constructor(
                     val bookings = snapshot.documents.mapNotNull { document ->
                         try {
                             document.toObject(BookingModel::class.java)
-                        } catch (e: Exception) {
+                        } catch (_: Exception) {
                             null
                         }
                     }
