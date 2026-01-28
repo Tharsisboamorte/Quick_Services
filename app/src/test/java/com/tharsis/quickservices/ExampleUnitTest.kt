@@ -1,4 +1,4 @@
-package com.tharsis.qucikservices
+package com.tharsis.quickservices
 
 import org.junit.Test
 
