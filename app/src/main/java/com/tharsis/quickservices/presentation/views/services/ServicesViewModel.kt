@@ -7,12 +7,12 @@ import com.tharsis.quickservices.domain.usecase.services.GetServiceByIdUseCase
 import com.tharsis.quickservices.domain.usecase.services.GetServiceUseCase
 import com.tharsis.quickservices.utils.AppResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class ServicesViewModel @Inject constructor(
@@ -26,7 +26,7 @@ class ServicesViewModel @Inject constructor(
     init {
         loadServices()
     }
-   
+
     fun loadServices() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessage = null) }

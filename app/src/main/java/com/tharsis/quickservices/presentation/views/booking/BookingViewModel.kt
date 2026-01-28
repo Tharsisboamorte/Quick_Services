@@ -10,12 +10,12 @@ import com.tharsis.quickservices.domain.usecase.services.GetServiceUseCase
 import com.tharsis.quickservices.utils.AppResult
 import com.tharsis.quickservices.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class BookingViewModel @Inject constructor(

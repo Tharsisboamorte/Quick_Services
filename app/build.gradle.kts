@@ -1,15 +1,32 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.services)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.hilt.android)
 }
 
 android {
     namespace = "com.tharsis.quickservices"
-    compileSdk {
-        version = release(36)
+    compileSdk = 36
+
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/DEPENDENCIES",
+                "META-INF/LICENSE",
+                "META-INF/LICENSE.txt",
+                "META-INF/license.txt",
+                "META-INF/NOTICE",
+                "META-INF/NOTICE.txt",
+                "META-INF/notice.txt",
+                "META-INF/ASL2.0",
+                "META-INF/*.kotlin_module"
+            )
+        }
     }
 
     defaultConfig {
@@ -31,9 +48,15 @@ android {
             )
         }
     }
+    kotlin {
+        jvmToolchain(17)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true
@@ -76,14 +99,15 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt)
+    implementation(libs.hilt.android.gradle.plugin)
 
     //Navigation
     implementation(libs.androidx.navigation.compose)
 
     //Google Play Services
     implementation(libs.google.play.services)
-    implementation(libs.google.api.client.android)
-    implementation(libs.google.calendar)
+    // implementation(libs.google.api.client.android)
+    // implementation(libs.google.calendar)
 
 }
 

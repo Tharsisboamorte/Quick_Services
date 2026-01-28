@@ -2,7 +2,7 @@ package com.tharsis.quickservices.domain.usecase.booking
 
 import com.tharsis.quickservices.domain.model.Booking
 import com.tharsis.quickservices.domain.repository.ServiceRepository
-import jakarta.inject.Inject
+import javax.inject.Inject
 
 class UpdateBookingUseCase @Inject constructor(
     private val serviceRepository: ServiceRepository
