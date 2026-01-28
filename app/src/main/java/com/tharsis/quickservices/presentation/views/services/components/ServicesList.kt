@@ -1,4 +1,4 @@
-package com.tharsis.quickservices.presentation.components
+package com.tharsis.quickservices.presentation.views.services.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

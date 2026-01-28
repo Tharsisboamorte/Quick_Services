@@ -3,7 +3,6 @@ package com.tharsis.quickservices.presentation.views.services
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -20,7 +19,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.tharsis.quickservices.R
 import com.tharsis.quickservices.presentation.components.EmptyContent
 import com.tharsis.quickservices.presentation.components.ErrorContent
-import com.tharsis.quickservices.presentation.components.ServicesList
+import com.tharsis.quickservices.presentation.components.LoadingIndicator
+import com.tharsis.quickservices.presentation.views.services.components.ServicesList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,9 +47,7 @@ fun ServicesScreen(
         ) {
             when {
                 state.isLoading -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+                    LoadingIndicator(modifier = Modifier.align(Alignment.Center))
                 }
                 state.hasError() -> {
                     ErrorContent(

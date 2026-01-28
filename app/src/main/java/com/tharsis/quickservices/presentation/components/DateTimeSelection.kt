@@ -12,24 +12,35 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tharsis.quickservices.R
+import com.tharsis.quickservices.utils.DateTimeUtil.createTimeFromTimeStamp
+import com.tharsis.quickservices.utils.DateTimeUtil.getHourFromTimestamp
+import com.tharsis.quickservices.utils.DateTimeUtil.getMinuteFromTimestamp
 
 @Composable
 fun DateTimeSelection(
     selectedDate: Long?,
     selectedTime: Long?,
     onDateSelected: (Long) -> Unit,
-    onTimeSelected: (Long) -> Unit
+    onTimeSelected: (Long) -> Unit,
+    modifier: Modifier = Modifier
 ) {
+    var showDatePicker by remember { mutableStateOf(false) }
+    var showTimePicker by remember { mutableStateOf(false) }
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         OutlinedButton(
-            onClick = { /* Show date picker */ },
+            onClick = { showDatePicker = true },
             modifier = Modifier.weight(1f)
         ) {
             Icon(Icons.Default.DateRange, null)
@@ -40,7 +51,7 @@ fun DateTimeSelection(
         }
 
         OutlinedButton(
-            onClick = { /* Show time picker */ },
+            onClick = { showTimePicker = true },
             modifier = Modifier.weight(1f)
         ) {
             Icon(Icons.Default.Schedule, null)
@@ -49,5 +60,27 @@ fun DateTimeSelection(
                 ?: stringResource(R.string.select_time)
             Text(timeLabel)
         }
+    }
+
+    if (showDatePicker) {
+        DatePickerDialog(
+            onDateSelected = { timestamp ->
+                onDateSelected(timestamp)
+            },
+            onDismiss = { showDatePicker = false },
+            initialDate = selectedDate
+        )
+    }
+
+    if (showTimePicker) {
+        TimePickerDialog(
+            onTimeSelected = { hour, minute ->
+                val timestamp = createTimeFromTimeStamp(hour, minute)
+                onTimeSelected(timestamp)
+            },
+            onDismiss = { showTimePicker = false },
+            initialHour = selectedTime?.let { getHourFromTimestamp(it) } ?: 9,
+            initialMinute = selectedTime?.let { getMinuteFromTimestamp(it) } ?: 0
+        )
     }
 }

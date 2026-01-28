@@ -15,7 +15,6 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -35,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.tharsis.quickservices.domain.model.PaymentMethod
 import com.tharsis.quickservices.R
+import com.tharsis.quickservices.presentation.components.LoadingIndicator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -126,9 +126,9 @@ fun PaymentScreen(
                 enabled = !state.isProcessing
             ) {
                 if (state.isProcessing) {
-                    CircularProgressIndicator(
+                    LoadingIndicator(
                         modifier = Modifier.size(24.dp),
-                        color = MaterialTheme.colorScheme.onPrimary
+                        indicatorSize = 24.dp
                     )
                 } else {
                     Text(stringResource(R.string.payment_pay_now))

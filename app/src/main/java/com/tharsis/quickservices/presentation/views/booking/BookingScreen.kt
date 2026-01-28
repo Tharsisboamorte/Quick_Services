@@ -12,7 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,13 +24,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.tharsis.quickservices.presentation.components.DateTimeSelection
-import com.tharsis.quickservices.presentation.components.ServiceSummaryCard
+import com.tharsis.quickservices.presentation.components.LoadingIndicator
+import com.tharsis.quickservices.presentation.views.services.components.ServiceSummaryCard
 import com.tharsis.quickservices.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,6 +77,12 @@ fun BookingScreen(
                 ServiceSummaryCard(service)
             }
 
+            Text(
+                text = stringResource(R.string.customer_information),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+
             OutlinedTextField(
                 value = state.customerName,
                 onValueChange = { viewModel.updateCustomerName(it) },
@@ -93,7 +103,15 @@ fun BookingScreen(
                 onValueChange = { viewModel.updateCustomerPhone(it) },
                 label = { Text(stringResource(R.string.booking_phone_label)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                placeholder = { Text("(11) 98765-4321") }
+            )
+
+            Text(
+                text = stringResource(R.string.date_and_time),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary
             )
 
             DateTimeSelection(
@@ -112,14 +130,14 @@ fun BookingScreen(
             )
 
             Button(
-                onClick = {  },
+                onClick = { viewModel.createBooking() },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = state.isFormValid() && !state.isLoading
             ) {
                 if (state.isLoading) {
-                    CircularProgressIndicator(
+                    LoadingIndicator(
                         modifier = Modifier.size(24.dp),
-                        color = MaterialTheme.colorScheme.onPrimary
+                        indicatorSize = 24.dp
                     )
                 } else {
                     Text(stringResource(R.string.booking_continue_payment))

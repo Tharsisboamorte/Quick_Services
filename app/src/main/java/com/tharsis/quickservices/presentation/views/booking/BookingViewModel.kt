@@ -4,11 +4,14 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tharsis.quickservices.domain.model.Booking
+import com.tharsis.quickservices.domain.model.BookingStatus
 import com.tharsis.quickservices.domain.usecase.booking.CreateBookingUseCase
 import com.tharsis.quickservices.domain.usecase.services.GetServiceByIdUseCase
 import com.tharsis.quickservices.domain.usecase.services.GetServiceUseCase
 import com.tharsis.quickservices.utils.AppResult
 import com.tharsis.quickservices.utils.Constants
+import com.tharsis.quickservices.utils.DateTimeUtil
+import com.tharsis.quickservices.utils.ValidationUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -65,12 +68,42 @@ class BookingViewModel @Inject constructor(
         _state.update { it.copy(selectedTime = timestamp) }
     }
 
-    fun createBooking(booking: Booking) {
+    fun createBooking() {
         val currentState = _state.value
         if (!currentState.isFormValid() || currentState.service == null) return
 
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessage = null) }
+
+            val scheduledTimestamp = DateTimeUtil.combineDateAndTime(
+                dateTimestamp = currentState.selectedDate!!,
+                timeTimestamp = currentState.selectedTime!!
+            )
+
+            val futureDateError = ValidationUtil.validateFutureDate(scheduledTimestamp)
+            if (futureDateError != null) {
+                _state.update { it.copy(isLoading = false, errorMessage = futureDateError) }
+                return@launch
+            }
+
+            val notes = currentState.notes.trim().takeIf { it.isNotBlank() }
+            val service = currentState.service
+
+            val booking = Booking(
+                id = "",
+                serviceId = service.id,
+                serviceName = service.name,
+                servicePrice = service.price,
+                serviceDurationMinutes = service.durationMinutes,
+                scheduledTimestamp = scheduledTimestamp,
+                customerName = ValidationUtil.sanitizeName(currentState.customerName),
+                customerEmail = ValidationUtil.sanitizeEmail(currentState.customerEmail),
+                customerPhone = ValidationUtil.sanitizePhone(currentState.customerPhone),
+                notes = notes,
+                status = BookingStatus.PENDING,
+                createdAt = System.currentTimeMillis(),
+                calendarEventId = null
+            )
 
             when (val result = createBookingUseCase(booking)) {
                 is AppResult.Success -> {

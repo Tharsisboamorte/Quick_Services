@@ -12,11 +12,15 @@
     <string name="booking_phone_label">Telefone</string>
     <string name="booking_notes_label">Observações (opcional)</string>
     <string name="booking_continue_payment">Continuar para pagamento</string>
+    <string name="customer_information">Informação do cliente</string>
 
     <string name="date_selected">Data selecionada</string>
     <string name="select_date">Selecionar data</string>
     <string name="time_selected">Hora selecionada</string>
     <string name="select_time">Selecionar hora</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ok">OK</string>
+
 
     <string name="service_price_label">Valor:</string>
     <string name="service_summary_format">%1$s • %2$s</string>
@@ -38,4 +42,5 @@
     <string name="confirmation_add_calendar">Adicionar ao Google Agenda</string>
     <string name="confirmation_added_calendar">✓ Adicionado ao Google Agenda</string>
     <string name="confirmation_done">Concluir</string>
+    <string name="date_and_time">Dia e hora</string>
 </resources>
