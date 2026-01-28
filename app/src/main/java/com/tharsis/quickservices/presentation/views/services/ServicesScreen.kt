@@ -15,7 +15,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.tharsis.quickservices.R
 import com.tharsis.quickservices.presentation.components.EmptyContent
 import com.tharsis.quickservices.presentation.components.ErrorContent
 import com.tharsis.quickservices.presentation.components.ServicesList
@@ -31,7 +33,7 @@ fun ServicesScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("QuickServe") },
+                title = { Text(stringResource(R.string.services_title)) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 )
@@ -51,7 +53,7 @@ fun ServicesScreen(
                 }
                 state.hasError() -> {
                     ErrorContent(
-                        message = state.errorMessage ?: "Unknown error",
+                        message = state.errorMessage ?: stringResource(R.string.error_unknown),
                         onRetry = { viewModel.retry() },
                         modifier = Modifier.align(Alignment.Center)
                     )

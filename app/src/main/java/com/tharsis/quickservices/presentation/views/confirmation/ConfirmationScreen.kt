@@ -21,9 +21,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.tharsis.quickservices.R
 import com.tharsis.quickservices.utils.DateTimeUtil
 
 
@@ -51,7 +53,7 @@ fun ConfirmationScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Booking Confirmed!",
+            text = stringResource(R.string.confirmation_title),
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center
         )
@@ -66,10 +68,30 @@ fun ConfirmationScreen(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text("Service: ${booking.serviceName}")
-                    Text("Date: ${DateTimeUtil.formatDate(booking.scheduledTimestamp)}")
-                    Text("Time: ${DateTimeUtil.formatTime(booking.scheduledTimestamp)}")
-                    Text("Amount: R$ %.2f".format(booking.servicePrice))
+                    Text(
+                        stringResource(
+                            R.string.confirmation_service,
+                            booking.serviceName
+                        )
+                    )
+                    Text(
+                        stringResource(
+                            R.string.confirmation_date,
+                            DateTimeUtil.formatDate(booking.scheduledTimestamp)
+                        )
+                    )
+                    Text(
+                        stringResource(
+                            R.string.confirmation_time,
+                            DateTimeUtil.formatTime(booking.scheduledTimestamp)
+                        )
+                    )
+                    Text(
+                        stringResource(
+                            R.string.confirmation_amount,
+                            booking.servicePrice
+                        )
+                    )
                 }
             }
         }
@@ -82,10 +104,13 @@ fun ConfirmationScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !state.isAddingToCalendar
             ) {
-                Text("Add to Google Calendar")
+                Text(stringResource(R.string.confirmation_add_calendar))
             }
         } else {
-            Text("✓ Added to Calendar", color = MaterialTheme.colorScheme.primary)
+            Text(
+                stringResource(R.string.confirmation_added_calendar),
+                color = MaterialTheme.colorScheme.primary
+            )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -94,7 +119,7 @@ fun ConfirmationScreen(
             onClick = onNavigateHome,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Done")
+            Text(stringResource(R.string.confirmation_done))
         }
     }
 }

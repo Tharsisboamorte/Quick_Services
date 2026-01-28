@@ -13,7 +13,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.tharsis.quickservices.R
 
 @Composable
 fun DateTimeSelection(
@@ -32,7 +34,9 @@ fun DateTimeSelection(
         ) {
             Icon(Icons.Default.DateRange, null)
             Spacer(modifier = Modifier.width(8.dp))
-            Text(selectedDate?.let { "Date selected" } ?: "Select Date")
+            val dateLabel = selectedDate?.let { stringResource(R.string.date_selected) }
+                ?: stringResource(R.string.select_date)
+            Text(dateLabel)
         }
 
         OutlinedButton(
@@ -41,7 +45,9 @@ fun DateTimeSelection(
         ) {
             Icon(Icons.Default.Schedule, null)
             Spacer(modifier = Modifier.width(8.dp))
-            Text(selectedTime?.let { "Time selected" } ?: "Select Time")
+            val timeLabel = selectedTime?.let { stringResource(R.string.time_selected) }
+                ?: stringResource(R.string.select_time)
+            Text(timeLabel)
         }
     }
 }

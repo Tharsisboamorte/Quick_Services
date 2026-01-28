@@ -1,3 +1,41 @@
 <resources>
     <string name="app_name">Quick Services</string>
+    <string name="services_title">QuickServe</string>
+    <string name="error_unknown">Erro desconhecido</string>
+    <string name="retry">Tentar novamente</string>
+    <string name="empty_services_message">Nenhum serviço disponível</string>
+
+    <string name="booking_title">Agendar serviço</string>
+    <string name="back">Voltar</string>
+    <string name="booking_name_label">Nome</string>
+    <string name="booking_email_label">E-mail</string>
+    <string name="booking_phone_label">Telefone</string>
+    <string name="booking_notes_label">Observações (opcional)</string>
+    <string name="booking_continue_payment">Continuar para pagamento</string>
+
+    <string name="date_selected">Data selecionada</string>
+    <string name="select_date">Selecionar data</string>
+    <string name="time_selected">Hora selecionada</string>
+    <string name="select_time">Selecionar hora</string>
+
+    <string name="service_price_label">Valor:</string>
+    <string name="service_summary_format">%1$s • %2$s</string>
+
+    <string name="payment_title">Pagamento</string>
+    <string name="payment_total_amount">Valor total</string>
+    <string name="payment_amount_value">R$ %1$.2f</string>
+    <string name="payment_method_title">Método de pagamento</string>
+    <string name="payment_method_credit">Cartão de crédito</string>
+    <string name="payment_method_debit">Cartão de débito</string>
+    <string name="payment_method_pix">PIX</string>
+    <string name="payment_pay_now">Pagar agora</string>
+
+    <string name="confirmation_title">Agendamento confirmado!</string>
+    <string name="confirmation_service">Serviço: %1$s</string>
+    <string name="confirmation_date">Data: %1$s</string>
+    <string name="confirmation_time">Hora: %1$s</string>
+    <string name="confirmation_amount">Valor: R$ %1$.2f</string>
+    <string name="confirmation_add_calendar">Adicionar ao Google Agenda</string>
+    <string name="confirmation_added_calendar">✓ Adicionado ao Google Agenda</string>
+    <string name="confirmation_done">Concluir</string>
 </resources>

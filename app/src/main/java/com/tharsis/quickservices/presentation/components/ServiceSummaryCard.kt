@@ -11,8 +11,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tharsis.quickservices.domain.model.Service
+import com.tharsis.quickservices.R
 
 @Composable
 fun ServiceSummaryCard(service: Service) {
@@ -29,7 +31,11 @@ fun ServiceSummaryCard(service: Service) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "${service.getFormattedPrice()} • ${service.getFormattedDuration()}",
+                text = stringResource(
+                    id = R.string.service_summary_format,
+                    service.getFormattedPrice(),
+                    service.getFormattedDuration()
+                ),
                 style = MaterialTheme.typography.bodyLarge
             )
         }

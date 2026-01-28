@@ -26,11 +26,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.tharsis.quickservices.presentation.components.DateTimeSelection
 import com.tharsis.quickservices.presentation.components.ServiceSummaryCard
+import com.tharsis.quickservices.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,10 +52,10 @@ fun BookingScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Book Service") },
+                title = { Text(stringResource(R.string.booking_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBackIosNew, "Back")
+                        Icon(Icons.Default.ArrowBackIosNew, stringResource(R.string.back))
                     }
                 }
             )
@@ -74,14 +76,14 @@ fun BookingScreen(
             OutlinedTextField(
                 value = state.customerName,
                 onValueChange = { viewModel.updateCustomerName(it) },
-                label = { Text("Name") },
+                label = { Text(stringResource(R.string.booking_name_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
             OutlinedTextField(
                 value = state.customerEmail,
                 onValueChange = { viewModel.updateCustomerEmail(it) },
-                label = { Text("Email") },
+                label = { Text(stringResource(R.string.booking_email_label)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -89,7 +91,7 @@ fun BookingScreen(
             OutlinedTextField(
                 value = state.customerPhone,
                 onValueChange = { viewModel.updateCustomerPhone(it) },
-                label = { Text("Phone") },
+                label = { Text(stringResource(R.string.booking_phone_label)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -104,7 +106,7 @@ fun BookingScreen(
             OutlinedTextField(
                 value = state.notes,
                 onValueChange = { viewModel.updateNotes(it) },
-                label = { Text("Notes (optional)") },
+                label = { Text(stringResource(R.string.booking_notes_label)) },
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 3
             )
@@ -120,7 +122,7 @@ fun BookingScreen(
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                 } else {
-                    Text("Continue to Payment")
+                    Text(stringResource(R.string.booking_continue_payment))
                 }
             }
 

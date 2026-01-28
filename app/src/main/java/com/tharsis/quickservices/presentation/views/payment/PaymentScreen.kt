@@ -30,9 +30,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.tharsis.quickservices.domain.model.PaymentMethod
+import com.tharsis.quickservices.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,10 +54,10 @@ fun PaymentScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Payment") },
+                title = { Text(stringResource(R.string.payment_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBackIosNew, "Back")
+                        Icon(Icons.Default.ArrowBackIosNew, stringResource(R.string.back))
                     }
                 }
             )
@@ -75,17 +77,28 @@ fun PaymentScreen(
                 )
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Total Amount", style = MaterialTheme.typography.bodyLarge)
                     Text(
-                        text = "R$ %.2f".format(state.amount),
+                        text = stringResource(R.string.payment_total_amount),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Text(
+                        text = stringResource(R.string.payment_amount_value, state.amount),
                         style = MaterialTheme.typography.displaySmall
                     )
                 }
             }
 
-            Text("Payment Method", style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = stringResource(R.string.payment_method_title),
+                style = MaterialTheme.typography.titleMedium
+            )
 
             PaymentMethod.entries.forEach { method ->
+                val methodLabel = when (method) {
+                    PaymentMethod.CREDIT -> stringResource(R.string.payment_method_credit)
+                    PaymentMethod.DEBIT -> stringResource(R.string.payment_method_debit)
+                    PaymentMethod.PIX -> stringResource(R.string.payment_method_pix)
+                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -101,7 +114,7 @@ fun PaymentScreen(
                         onClick = { viewModel.selectPaymentMethod(method) }
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(method.displayName)
+                    Text(methodLabel)
                 }
             }
 
@@ -118,7 +131,7 @@ fun PaymentScreen(
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                 } else {
-                    Text("Pay Now")
+                    Text(stringResource(R.string.payment_pay_now))
                 }
             }
         }

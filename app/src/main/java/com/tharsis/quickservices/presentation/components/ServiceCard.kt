@@ -20,8 +20,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tharsis.quickservices.domain.model.Service
+import com.tharsis.quickservices.R
 
 
 @Composable
@@ -55,9 +57,10 @@ fun ServiceCard(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "Valor: ",
+                        text = stringResource(R.string.service_price_label),
                         style = MaterialTheme.typography.titleMedium,
                     )
+                    Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = service.getFormattedPrice(),
                         style = MaterialTheme.typography.titleMedium,

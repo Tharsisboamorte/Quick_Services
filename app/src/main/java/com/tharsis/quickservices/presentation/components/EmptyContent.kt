@@ -7,7 +7,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.tharsis.quickservices.R
 
 @Composable
 fun EmptyContent(modifier: Modifier = Modifier) {
@@ -16,7 +18,7 @@ fun EmptyContent(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "No services available",
+            text = stringResource(R.string.empty_services_message),
             style = MaterialTheme.typography.bodyLarge
         )
     }
