@@ -1,6 +1,16 @@
 package com.tharsis.quickservices.presentation.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -17,11 +27,23 @@ import com.tharsis.quickservices.utils.Constants
 fun NavigationGraph(
     navController: NavHostController
 ) {
+    val slideSpec = tween<IntOffset>(
+        durationMillis = 320,
+        easing = FastOutSlowInEasing
+    )
+    val fadeSpec = tween<Float>(durationMillis = 120)
+
     NavHost(
         navController = navController,
         startDestination = Constants.ROUTE_SERVICES
     ) {
-        composable(route = Constants.ROUTE_SERVICES) {
+        composable(
+            route = Constants.ROUTE_SERVICES,
+            enterTransition = { forwardEnterTransition(slideSpec, fadeSpec) },
+            exitTransition = { forwardExitTransition(slideSpec, fadeSpec) },
+            popEnterTransition = { backEnterTransition(slideSpec, fadeSpec) },
+            popExitTransition = { backExitTransition(slideSpec, fadeSpec) }
+        ) {
             ServicesScreen(
                 onServiceClick = { serviceId ->
                     navController.navigate("booking/$serviceId")
@@ -35,7 +57,11 @@ fun NavigationGraph(
                 navArgument(Constants.ARG_SERVICE_ID) {
                     type = NavType.StringType
                 }
-            )
+            ),
+            enterTransition = { forwardEnterTransition(slideSpec, fadeSpec) },
+            exitTransition = { forwardExitTransition(slideSpec, fadeSpec) },
+            popEnterTransition = { backEnterTransition(slideSpec, fadeSpec) },
+            popExitTransition = { backExitTransition(slideSpec, fadeSpec) }
         ) {
             BookingScreen(
                 onNavigateBack = {
@@ -57,7 +83,11 @@ fun NavigationGraph(
                 navArgument(Constants.ARG_BOOKING_ID) {
                     type = NavType.StringType
                 }
-            )
+            ),
+            enterTransition = { forwardEnterTransition(slideSpec, fadeSpec) },
+            exitTransition = { forwardExitTransition(slideSpec, fadeSpec) },
+            popEnterTransition = { backEnterTransition(slideSpec, fadeSpec) },
+            popExitTransition = { backExitTransition(slideSpec, fadeSpec) }
         ) {
             PaymentScreen(
                 onNavigateBack = {
@@ -79,7 +109,11 @@ fun NavigationGraph(
                 navArgument(Constants.ARG_BOOKING_ID) {
                     type = NavType.StringType
                 }
-            )
+            ),
+            enterTransition = { forwardEnterTransition(slideSpec, fadeSpec) },
+            exitTransition = { forwardExitTransition(slideSpec, fadeSpec) },
+            popEnterTransition = { backEnterTransition(slideSpec, fadeSpec) },
+            popExitTransition = { backExitTransition(slideSpec, fadeSpec) }
         ) {
             ConfirmationScreen(
                 onNavigateHome = {
@@ -92,6 +126,46 @@ fun NavigationGraph(
             )
         }
     }
+}
+
+private fun forwardEnterTransition(
+    slideSpec: FiniteAnimationSpec<IntOffset>,
+    fadeSpec: FiniteAnimationSpec<Float>
+): EnterTransition {
+    return slideInHorizontally(
+        animationSpec = slideSpec,
+        initialOffsetX = { fullWidth -> fullWidth }
+    ) + fadeIn(animationSpec = fadeSpec)
+}
+
+private fun forwardExitTransition(
+    slideSpec: FiniteAnimationSpec<IntOffset>,
+    fadeSpec: FiniteAnimationSpec<Float>
+): ExitTransition {
+    return slideOutHorizontally(
+        animationSpec = slideSpec,
+        targetOffsetX = { fullWidth -> -fullWidth }
+    ) + fadeOut(animationSpec = fadeSpec)
+}
+
+private fun backEnterTransition(
+    slideSpec: FiniteAnimationSpec<IntOffset>,
+    fadeSpec: FiniteAnimationSpec<Float>
+): EnterTransition {
+    return slideInHorizontally(
+        animationSpec = slideSpec,
+        initialOffsetX = { fullWidth -> -fullWidth }
+    ) + fadeIn(animationSpec = fadeSpec)
+}
+
+private fun backExitTransition(
+    slideSpec: FiniteAnimationSpec<IntOffset>,
+    fadeSpec: FiniteAnimationSpec<Float>
+): ExitTransition {
+    return slideOutHorizontally(
+        animationSpec = slideSpec,
+        targetOffsetX = { fullWidth -> fullWidth }
+    ) + fadeOut(animationSpec = fadeSpec)
 }
 
 object NavigationRoutes {
