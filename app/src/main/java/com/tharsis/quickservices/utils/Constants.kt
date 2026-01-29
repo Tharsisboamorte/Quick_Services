@@ -13,6 +13,8 @@ object Constants {
     // Navigation Arguments
     const val ARG_SERVICE_ID = "service"
     const val ARG_BOOKING_ID = "bookingId"
+    const val ARG_USER_EMAIL = "userEmail"
+
 
     // Date/Time Formats
     const val DATE_FORMAT_DISPLAY = "dd/MM/yyyy"

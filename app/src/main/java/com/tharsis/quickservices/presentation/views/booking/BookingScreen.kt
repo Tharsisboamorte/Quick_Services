@@ -1,5 +1,6 @@
 package com.tharsis.quickservices.presentation.views.booking
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,26 +30,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.tharsis.quickservices.R
 import com.tharsis.quickservices.presentation.components.DateTimeSelection
 import com.tharsis.quickservices.presentation.components.LoadingIndicator
-import com.tharsis.quickservices.presentation.navigation.Screen
 import com.tharsis.quickservices.presentation.views.services.components.ServiceSummaryCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookingScreen(
     onNavigateBack: () -> Unit,
-    onBookingCreated: (String) -> Unit,
+    onBookingCreated: (String, String) -> Unit,
     viewModel: BookingViewModel = hiltViewModel(),
-    navController: NavHostController
 ) {
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess && state.bookingId != null) {
-            onBookingCreated(state.bookingId!!)
+            Log.d("BookingScreen", "Saving email: ${state.customerEmail}")
+            onBookingCreated(state.bookingId!!, state.customerEmail)
+            Log.d("BookingScreen", "Verification - email saved: ${state.customerEmail}")
         }
     }
 
@@ -135,15 +135,6 @@ fun BookingScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = state.isFormValid() && !state.isLoading
             ) {
-                if (state.isSuccess) {
-                    navController.currentBackStackEntry
-                        ?.savedStateHandle
-                        ?.set("userEmail", state.customerEmail)
-                    navController.navigate(
-                        Screen.Payment.route
-                    )
-                }
-
                 if (state.isLoading) {
                     LoadingIndicator(
                         modifier = Modifier.size(24.dp),

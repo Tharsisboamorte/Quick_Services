@@ -1,5 +1,6 @@
 package com.tharsis.quickservices.presentation.navigation
 
+import android.util.Log
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -18,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.tharsis.quickservices.presentation.views.booking.BookingScreen
 import com.tharsis.quickservices.presentation.views.confirmation.ConfirmationScreen
+import com.tharsis.quickservices.presentation.views.payment.PaymentErrorFallback
 import com.tharsis.quickservices.presentation.views.payment.PaymentScreen
 import com.tharsis.quickservices.presentation.views.services.ServicesScreen
 import com.tharsis.quickservices.utils.Constants
@@ -67,14 +69,13 @@ fun NavigationGraph(
                 onNavigateBack = {
                     navController.popBackStack()
                 },
-                onBookingCreated = { bookingId ->
-                    navController.navigate(Screen.Payment.createRoute(bookingId)) {
+                onBookingCreated =  { bookingId, userEmail ->
+                    navController.navigate(Screen.Payment.createRoute(bookingId,userEmail)) {
                         popUpTo(Screen.Booking.route) {
                             inclusive = true
                         }
                     }
                 },
-                navController = navController
             )
         }
 
@@ -83,6 +84,9 @@ fun NavigationGraph(
             arguments = listOf(
                 navArgument(Constants.ARG_BOOKING_ID) {
                     type = NavType.StringType
+                },
+                navArgument(Constants.ARG_USER_EMAIL) {
+                    type = NavType.StringType
                 }
             ),
             enterTransition = { forwardEnterTransition(slideSpec, fadeSpec) },
@@ -90,21 +94,24 @@ fun NavigationGraph(
             popEnterTransition = { backEnterTransition(slideSpec, fadeSpec) },
             popExitTransition = { backExitTransition(slideSpec, fadeSpec) }
         ) {
-            val userEmail = navController.previousBackStackEntry
-                ?.savedStateHandle
-                ?.get<String>("userEmail")
+            val userEmail = it.arguments?.getString(Constants.ARG_USER_EMAIL)
+            Log.d("PaymentScreen", "userEmail: $userEmail")
 
             if (userEmail != null) {
                 PaymentScreen(
                     userEmail = userEmail,
-                    onNavigateBack = {
-                        navController.popBackStack()
-                    },
+                    onNavigateBack = { navController.popBackStack() },
                     onPaymentSuccess = { bookingId ->
                         navController.navigate(Screen.Confirmation.createRoute(bookingId)) {
-                            popUpTo(Screen.Services.route) {
-                                inclusive = false
-                            }
+                            popUpTo(Screen.Services.route) { inclusive = false }
+                        }
+                    }
+                )
+            } else {
+                PaymentErrorFallback(
+                    onNavigateBack = {
+                        navController.navigate(Screen.Services.route) {
+                            popUpTo(Screen.Services.route) { inclusive = true }
                         }
                     }
                 )
@@ -183,8 +190,8 @@ sealed class Screen(val route: String) {
         fun createRoute(serviceId: String) = "booking/$serviceId"
     }
 
-    object Payment : Screen("payment/{${Constants.ARG_BOOKING_ID}}") {
-        fun createRoute(bookingId: String) = "payment/$bookingId"
+    object Payment : Screen("payment/{${Constants.ARG_BOOKING_ID}}/{${Constants.ARG_USER_EMAIL}}") {
+        fun createRoute(bookingId: String, userEmail: String) = "payment/$bookingId/$userEmail"
     }
 
     object Confirmation : Screen("confirmation/{${Constants.ARG_BOOKING_ID}}") {

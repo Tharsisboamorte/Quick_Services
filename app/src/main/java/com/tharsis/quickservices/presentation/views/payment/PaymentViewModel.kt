@@ -37,10 +37,7 @@ class PaymentViewModel @Inject constructor(
     private var currentBooking: Booking? = null
     private var userEmail: String? = null
 
-    fun initialize(email: String) {
-        if (userEmail == email) return
-
-        userEmail = email
+    init {
         loadBookingDetails()
     }
 

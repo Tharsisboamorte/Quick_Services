@@ -32,9 +32,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.tharsis.quickservices.domain.model.PaymentMethod
 import com.tharsis.quickservices.R
-import com.tharsis.quickservices.domain.model.Booking
+import com.tharsis.quickservices.domain.model.PaymentMethod
 import com.tharsis.quickservices.presentation.components.LoadingIndicator
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,9 +46,6 @@ fun PaymentScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(userEmail) {
-        viewModel.initialize(userEmail)
-    }
 
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
