@@ -6,36 +6,36 @@ import com.google.firebase.firestore.PropertyName
 import com.tharsis.quickservices.domain.model.Service
 import com.tharsis.quickservices.domain.model.ServiceCategory
 
-data class ServiceModel(
-    @DocumentId
-    val id: String = "",
-    @PropertyName("name")
-    val name: String = "",
-    @PropertyName("description")
-    val description: String = "",
-    @PropertyName("price")
-    val price: Double = 0.0,
-    @PropertyName("duration_minutes")
-    val durationMinutes: Int = 0,
-    @PropertyName("category")
-    val category: String = "",
-    @PropertyName("image_url")
-    val imageUrl: String? = null,
-    @PropertyName("is_available")
-    val isAvailable: Boolean = true
-) {
-    fun toDomain(): Service {
-        return Service(
-            id = id,
-            name = name,
-            description = description,
-            price = price,
-            durationMinutes = durationMinutes,
-            category = parseCategoryFromString(category),
-            imageUrl = imageUrl,
-            isAvailable = isAvailable
-        )
-    }
+    data class ServiceModel(
+        @DocumentId
+        val id: String = "",
+        @PropertyName("name")
+        val name: String = "",
+        @PropertyName("description")
+        val description: String = "",
+        @PropertyName("price")
+        val price: Double = 0.0,
+        @PropertyName("duration_minutes")
+        val durationMinutes: Int = 0,
+        @PropertyName("category")
+        val category: String = "",
+        @PropertyName("image_url")
+        val imageUrl: String? = null,
+        @PropertyName("is_available")
+        val isAvailable: Boolean = true
+    ) {
+        fun toDomain(): Service {
+            return Service(
+                id = id,
+                name = name,
+                description = description,
+                price = price,
+                durationMinutes = durationMinutes,
+                category = parseCategoryFromString(category),
+                imageUrl = imageUrl,
+                isAvailable = isAvailable
+            )
+        }
 
     private fun parseCategoryFromString(categoryString: String): ServiceCategory {
         return try {
@@ -46,8 +46,8 @@ data class ServiceModel(
         }
     }
 
-    companion object {
-       const val TAG = "ServiceModel"
+        companion object {
+           const val TAG = "ServiceModel"
 
         fun fromDomain(service: Service): ServiceModel {
             return ServiceModel(

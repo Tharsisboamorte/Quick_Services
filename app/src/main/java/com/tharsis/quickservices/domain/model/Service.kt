@@ -22,10 +22,10 @@ data class Service(
 }
 
 enum class ServiceCategory(val displayName: String) {
-    BEAUTY("Beauty & Hair"),
-    AUTOMOTIVE("Automotive"),
-    CLEANING("Cleaning"),
-    MAINTENANCE("Maintenance"),
-    WELLNESS("Wellness"),
+    BELEZA("Beauty & Hair"),
+    AUTOMOTIVO("Automotive"),
+    LIMPEZA("Cleaning"),
+    MANUTENÇÃO("Maintenance"),
+    `BEM-ESTAR`("Wellness"),
     OTHER("Other")
 }

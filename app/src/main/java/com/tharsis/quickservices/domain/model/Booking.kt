@@ -1,5 +1,7 @@
 package com.tharsis.quickservices.domain.model
 
+import java.util.UUID
+
 data class Booking(
     val id: String,
     val serviceId: String,
@@ -29,12 +31,18 @@ data class Booking(
     fun isPast(): Boolean {
         return scheduledTimestamp < System.currentTimeMillis()
     }
-
     // Checks if the booking is within the next 24 hours.
     fun isUpcoming(): Boolean {
         val now = System.currentTimeMillis()
         val twentyFourHoursFromNow = now + (24 * 60 * 60 * 1000)
         return scheduledTimestamp in now..twentyFourHoursFromNow
+    }
+
+    companion object {
+        fun generateID() : String {
+            return UUID.randomUUID().toString()
+        }
+
     }
 
 }

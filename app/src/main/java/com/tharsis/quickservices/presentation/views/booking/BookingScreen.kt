@@ -24,22 +24,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.tharsis.quickservices.R
 import com.tharsis.quickservices.presentation.components.DateTimeSelection
 import com.tharsis.quickservices.presentation.components.LoadingIndicator
-import com.tharsis.quickservices.presentation.views.services.components.ServiceSummaryCard
-import com.tharsis.quickservices.R
 import com.tharsis.quickservices.presentation.navigation.Screen
-import com.tharsis.quickservices.utils.Constants
+import com.tharsis.quickservices.presentation.views.services.components.ServiceSummaryCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

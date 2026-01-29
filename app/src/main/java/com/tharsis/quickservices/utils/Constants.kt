@@ -11,7 +11,7 @@ object Constants {
     // Navigation Routes
 
     // Navigation Arguments
-    const val ARG_SERVICE_ID = "serviceId"
+    const val ARG_SERVICE_ID = "service"
     const val ARG_BOOKING_ID = "bookingId"
 
     // Date/Time Formats

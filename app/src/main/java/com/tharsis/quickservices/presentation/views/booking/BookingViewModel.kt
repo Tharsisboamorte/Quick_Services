@@ -9,6 +9,7 @@ import com.tharsis.quickservices.domain.usecase.booking.CreateBookingUseCase
 import com.tharsis.quickservices.domain.usecase.services.GetServiceByIdUseCase
 import com.tharsis.quickservices.domain.usecase.services.GetServiceUseCase
 import com.tharsis.quickservices.utils.AppResult
+import com.tharsis.quickservices.utils.Constants
 import com.tharsis.quickservices.utils.DateTimeUtil
 import com.tharsis.quickservices.utils.ValidationUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,6 +31,10 @@ class BookingViewModel @Inject constructor(
     private val _state = MutableStateFlow(BookingState())
     val state: StateFlow<BookingState> = _state.asStateFlow()
 
+    private val serviceId: String = checkNotNull(savedStateHandle[Constants.ARG_SERVICE_ID]) {
+        "serviceId is required"
+    }
+
     init {
         loadService()
     }
@@ -37,7 +42,7 @@ class BookingViewModel @Inject constructor(
     private fun loadService() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            _state.update { it.copy(isLoading = false) }
+            getSelectedService(serviceId)
         }
     }
 
@@ -87,7 +92,7 @@ class BookingViewModel @Inject constructor(
             val service = currentState.service
 
             val booking = Booking(
-                id = "",
+                id = Booking.generateID(),
                 serviceId = service.id,
                 serviceName = service.name,
                 servicePrice = service.price,
@@ -123,5 +128,33 @@ class BookingViewModel @Inject constructor(
                 else -> {}
             }
         }
+    }
+
+    fun getSelectedService(serviceID: String){
+        viewModelScope.launch {
+            when (val result = getServiceByIdUseCase(serviceID)) {
+                is AppResult.Success -> {
+                    _state.update {
+                        it.copy(
+                            service = result.data,
+                            isLoading = false
+                        )
+                    }
+                }
+                is AppResult.Error -> {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = result.message
+                        )
+                    }
+                }
+                else -> {
+                    _state.update { it.copy(isLoading = false) }
+                }
+            }
+
+        }
+
     }
 }
