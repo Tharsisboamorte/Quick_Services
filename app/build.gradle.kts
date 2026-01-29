@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -12,6 +13,12 @@ plugins {
 android {
     namespace = "com.tharsis.quickservices"
     compileSdk = 36
+
+    val localProperties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.inputStream())
+    }
 
     packaging {
         resources {
@@ -37,6 +44,17 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val clientId = localProperties.getProperty("CIELO_CLIENT_ID", "")
+        val clientAccessToken = localProperties.getProperty("CIELO_ACCESS_TOKEN", "")
+        val clientMerchantId = localProperties.getProperty("CIELO_MERCHANT_ID", "")
+        val apiURL = localProperties.getProperty("API_URL", "")
+
+
+        buildConfigField("String", "CIELO_CLIENT_ID", "\"$clientId\"")
+        buildConfigField("String", "CIELO_ACCESS_TOKEN", "\"$clientAccessToken\"")
+        buildConfigField("String", "CIELO_MERCHANT_ID", "\"$clientMerchantId\"")
+        buildConfigField("String", "API_URL", "\"$apiURL\"")
     }
 
     buildTypes {
@@ -59,6 +77,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 }
@@ -109,6 +128,8 @@ dependencies {
     // implementation(libs.google.api.client.android)
     // implementation(libs.google.calendar)
 
+    //Cielo
+    implementation(libs.cielo.lio)
 }
 
 kapt {

@@ -9,7 +9,6 @@ import com.tharsis.quickservices.domain.usecase.booking.CreateBookingUseCase
 import com.tharsis.quickservices.domain.usecase.services.GetServiceByIdUseCase
 import com.tharsis.quickservices.domain.usecase.services.GetServiceUseCase
 import com.tharsis.quickservices.utils.AppResult
-import com.tharsis.quickservices.utils.Constants
 import com.tharsis.quickservices.utils.DateTimeUtil
 import com.tharsis.quickservices.utils.ValidationUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,8 +26,6 @@ class BookingViewModel @Inject constructor(
     private val getServiceByIdUseCase: GetServiceByIdUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
-    private val serviceId: String = checkNotNull(savedStateHandle[Constants.ARG_SERVICE_ID])
 
     private val _state = MutableStateFlow(BookingState())
     val state: StateFlow<BookingState> = _state.asStateFlow()

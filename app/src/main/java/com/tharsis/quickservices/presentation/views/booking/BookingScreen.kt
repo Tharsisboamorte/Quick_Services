@@ -33,17 +33,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.tharsis.quickservices.presentation.components.DateTimeSelection
 import com.tharsis.quickservices.presentation.components.LoadingIndicator
 import com.tharsis.quickservices.presentation.views.services.components.ServiceSummaryCard
 import com.tharsis.quickservices.R
+import com.tharsis.quickservices.presentation.navigation.Screen
+import com.tharsis.quickservices.utils.Constants
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookingScreen(
     onNavigateBack: () -> Unit,
     onBookingCreated: (String) -> Unit,
-    viewModel: BookingViewModel = hiltViewModel()
+    viewModel: BookingViewModel = hiltViewModel(),
+    navController: NavHostController
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -130,10 +134,21 @@ fun BookingScreen(
             )
 
             Button(
-                onClick = { viewModel.createBooking() },
+                onClick = {
+                    viewModel.createBooking()
+                },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = state.isFormValid() && !state.isLoading
             ) {
+                if (state.isSuccess) {
+                    navController.currentBackStackEntry
+                        ?.savedStateHandle
+                        ?.set("userEmail", state.customerEmail)
+                    navController.navigate(
+                        Screen.Payment.route
+                    )
+                }
+
                 if (state.isLoading) {
                     LoadingIndicator(
                         modifier = Modifier.size(24.dp),

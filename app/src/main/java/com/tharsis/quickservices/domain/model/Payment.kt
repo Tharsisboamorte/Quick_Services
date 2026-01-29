@@ -1,5 +1,7 @@
 package com.tharsis.quickservices.domain.model
 
+import java.util.UUID
+
 data class Payment(
     val id: String,
     val bookingId: String,
@@ -20,6 +22,12 @@ data class Payment(
     fun isFailed(): Boolean = status == PaymentStatus.FAILED
 
     fun isProcessing(): Boolean = status == PaymentStatus.PROCESSING
+
+   companion object {
+       fun generateId(): String {
+           return UUID.randomUUID().toString()
+       }
+   }
 }
 
 enum class PaymentStatus(val displayName: String) {
@@ -27,7 +35,8 @@ enum class PaymentStatus(val displayName: String) {
     COMPLETED("Completed"),
     FAILED("Failed"),
     REFUNDED("Refunded"),
-    PROCESSING("Processing")
+    PROCESSING("Processing"),
+    CANCELLED("Cancelled")
 }
 
 enum class PaymentMethod(val displayName: String) {

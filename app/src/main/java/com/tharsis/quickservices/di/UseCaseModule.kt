@@ -1,11 +1,12 @@
 package com.tharsis.quickservices.di
 
+import com.tharsis.quickservices.domain.repository.CieloLioPaymentRepository
 import com.tharsis.quickservices.domain.repository.ServiceRepository
 import com.tharsis.quickservices.domain.usecase.booking.CreateBookingUseCase
 import com.tharsis.quickservices.domain.usecase.booking.GetBookingUseCase
 import com.tharsis.quickservices.domain.usecase.booking.GetUserBookingsUseCase
 import com.tharsis.quickservices.domain.usecase.booking.UpdateBookingUseCase
-import com.tharsis.quickservices.domain.usecase.payment.GetPaymentUseCase
+import com.tharsis.quickservices.domain.usecase.payment.CancelPaymentUseCase
 import com.tharsis.quickservices.domain.usecase.payment.ProcessPaymentUseCase
 import com.tharsis.quickservices.domain.usecase.services.GetServiceByIdUseCase
 import com.tharsis.quickservices.domain.usecase.services.GetServiceUseCase
@@ -35,15 +36,15 @@ object UseCaseModule {
 
     // Payment Use Cases
     @Provides
-    fun provideGetPaymentUseCase(
-        repository: ServiceRepository
-    ): GetPaymentUseCase {
-        return GetPaymentUseCase(repository)
+    fun provideCancelPaymentUseCase(
+        repository: CieloLioPaymentRepository
+    ): CancelPaymentUseCase {
+        return CancelPaymentUseCase(repository)
     }
 
     @Provides
     fun provideProcessPaymentUseCase(
-        repository: ServiceRepository
+        repository: CieloLioPaymentRepository
     ): ProcessPaymentUseCase {
         return ProcessPaymentUseCase(repository)
     }

@@ -8,7 +8,7 @@ espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.12.2"
 composeBom = "2026.01.00"
-cielo-lio= "0.19.5"
+cielo= "2.5.4"
 firebase-bom= "34.8.0"
 firebase-firestore-ktx = "25.1.4"
 firebase-auth-ktx = "23.2.1"
@@ -71,8 +71,9 @@ hilt-android-gradle-plugin = { group = "com.google.dagger", name = "hilt-android
 
 #Google Play Services
 google-play-services = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "google-play-services" }
-google-api-client-android = { group = "com.google.api-client", name = "google-api-client-android", version.ref = "google-api-android" }
-google-calendar = { group = "com.google.apis", name = "google-api-services-calendar", version.ref = "google-calendar" }
+
+#Cielo
+cielo-lio = { group = "com.cielo.lio", name = "order-manager", version.ref = "cielo" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

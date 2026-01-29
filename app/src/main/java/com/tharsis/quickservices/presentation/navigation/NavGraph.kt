@@ -2,13 +2,13 @@ package com.tharsis.quickservices.presentation.navigation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.FiniteAnimationSpec
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavHostController
@@ -35,10 +35,10 @@ fun NavigationGraph(
 
     NavHost(
         navController = navController,
-        startDestination = Constants.ROUTE_SERVICES
+        startDestination = Screen.Services.route
     ) {
         composable(
-            route = Constants.ROUTE_SERVICES,
+            route = Screen.Services.route,
             enterTransition = { forwardEnterTransition(slideSpec, fadeSpec) },
             exitTransition = { forwardExitTransition(slideSpec, fadeSpec) },
             popEnterTransition = { backEnterTransition(slideSpec, fadeSpec) },
@@ -46,13 +46,13 @@ fun NavigationGraph(
         ) {
             ServicesScreen(
                 onServiceClick = { serviceId ->
-                    navController.navigate("booking/$serviceId")
+                    navController.navigate(Screen.Booking.createRoute(serviceId))
                 }
             )
         }
 
         composable(
-            route = Constants.ROUTE_BOOKING,
+            route = Screen.Booking.route,
             arguments = listOf(
                 navArgument(Constants.ARG_SERVICE_ID) {
                     type = NavType.StringType
@@ -68,17 +68,18 @@ fun NavigationGraph(
                     navController.popBackStack()
                 },
                 onBookingCreated = { bookingId ->
-                    navController.navigate("payment/$bookingId") {
-                        popUpTo("booking/{serviceId}") {
+                    navController.navigate(Screen.Payment.createRoute(bookingId)) {
+                        popUpTo(Screen.Booking.route) {
                             inclusive = true
                         }
                     }
-                }
+                },
+                navController = navController
             )
         }
 
         composable(
-            route = Constants.ROUTE_PAYMENT,
+            route = Screen.Payment.route,
             arguments = listOf(
                 navArgument(Constants.ARG_BOOKING_ID) {
                     type = NavType.StringType
@@ -89,22 +90,29 @@ fun NavigationGraph(
             popEnterTransition = { backEnterTransition(slideSpec, fadeSpec) },
             popExitTransition = { backExitTransition(slideSpec, fadeSpec) }
         ) {
-            PaymentScreen(
-                onNavigateBack = {
-                    navController.popBackStack()
-                },
-                onPaymentSuccess = { bookingId ->
-                    navController.navigate("confirmation/$bookingId") {
-                        popUpTo(Constants.ROUTE_SERVICES) {
-                            inclusive = false
+            val userEmail = navController.previousBackStackEntry
+                ?.savedStateHandle
+                ?.get<String>("userEmail")
+
+            if (userEmail != null) {
+                PaymentScreen(
+                    userEmail = userEmail,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    },
+                    onPaymentSuccess = { bookingId ->
+                        navController.navigate(Screen.Confirmation.createRoute(bookingId)) {
+                            popUpTo(Screen.Services.route) {
+                                inclusive = false
+                            }
                         }
                     }
-                }
-            )
+                )
+            }
         }
 
         composable(
-            route = Constants.ROUTE_CONFIRMATION,
+            route = Screen.Confirmation.route,
             arguments = listOf(
                 navArgument(Constants.ARG_BOOKING_ID) {
                     type = NavType.StringType
@@ -117,8 +125,8 @@ fun NavigationGraph(
         ) {
             ConfirmationScreen(
                 onNavigateHome = {
-                    navController.navigate(Constants.ROUTE_SERVICES) {
-                        popUpTo(Constants.ROUTE_SERVICES) {
+                    navController.navigate(Screen.Services.route) {
+                        popUpTo(Screen.Services.route) {
                             inclusive = true
                         }
                     }
@@ -168,17 +176,18 @@ private fun backExitTransition(
     ) + fadeOut(animationSpec = fadeSpec)
 }
 
-object NavigationRoutes {
+sealed class Screen(val route: String) {
+    object Services : Screen("services")
 
-    fun bookingRoute(serviceId: String): String {
-        return "booking/$serviceId"
+    object Booking : Screen("booking/{${Constants.ARG_SERVICE_ID}}") {
+        fun createRoute(serviceId: String) = "booking/$serviceId"
     }
 
-    fun paymentRoute(bookingId: String): String {
-        return "payment/$bookingId"
+    object Payment : Screen("payment/{${Constants.ARG_BOOKING_ID}}") {
+        fun createRoute(bookingId: String) = "payment/$bookingId"
     }
 
-    fun confirmationRoute(bookingId: String): String {
-        return "confirmation/$bookingId"
+    object Confirmation : Screen("confirmation/{${Constants.ARG_BOOKING_ID}}") {
+        fun createRoute(bookingId: String) = "confirmation/$bookingId"
     }
 }

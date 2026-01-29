@@ -34,16 +34,22 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.tharsis.quickservices.domain.model.PaymentMethod
 import com.tharsis.quickservices.R
+import com.tharsis.quickservices.domain.model.Booking
 import com.tharsis.quickservices.presentation.components.LoadingIndicator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaymentScreen(
+    userEmail: String,
     onNavigateBack: () -> Unit,
     onPaymentSuccess: (String) -> Unit,
     viewModel: PaymentViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+
+    LaunchedEffect(userEmail) {
+        viewModel.initialize(userEmail)
+    }
 
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
